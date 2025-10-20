@@ -3,72 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloudflare ➜ DuckDNS Converter</title>
+  <title>Brain Portal Viewer</title>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background: #0a0a0a;
+      background: #0d0d0d;
       color: #00ffaa;
+      font-family: "Courier New", monospace;
       text-align: center;
-      padding-top: 100px;
+      padding: 30px;
     }
+
+    h1 {
+      color: #00ffee;
+    }
+
+    iframe {
+      width: 90%;
+      height: 80vh;
+      border: 2px solid #00ffaa;
+      border-radius: 12px;
+      background: #000;
+      box-shadow: 0 0 20px #00ffaa55;
+    }
+
     input {
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      width: 300px;
-      margin: 5px;
-      background: #222;
+      background: #111;
       color: #0ff;
+      border: 1px solid #00ffaa;
+      padding: 8px;
+      border-radius: 6px;
+      width: 300px;
+      text-align: center;
     }
+
     button {
-      padding: 10px 20px;
-      border-radius: 8px;
+      margin-left: 5px;
+      padding: 8px 16px;
       border: none;
+      border-radius: 6px;
       background: #00ffaa;
       color: #111;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.2s;
     }
+
     button:hover {
       background: #00cc88;
     }
-    #output {
+
+    p {
       margin-top: 20px;
-      font-size: 1.2em;
-      color: #0ff;
+      font-size: 0.9em;
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
-  <h1>☁️➡️🦆 Cloudflare to DuckDNS URL Converter</h1>
-  <p>Paste your Cloudflare URL and choose your DuckDNS name:</p>
+  <h1>🧠 Cloudflare Experiment Viewer</h1>
+  <p>Enter your Cloudflare URL below to view it inside GitHub Pages:</p>
 
-  <input type="text" id="cfurl" placeholder="https://example.trycloudflare.com"><br>
-  <input type="text" id="duckname" placeholder="myducksubdomain"><br>
-  <button onclick="convert()">Convert</button>
+  <input id="urlInput" type="text" placeholder="https://example.trycloudflare.com">
+  <button onclick="loadFrame()">Load</button>
 
-  <div id="output"></div>
+  <div id="frameBox" style="margin-top: 20px;">
+    <iframe id="viewFrame" src="" allow="fullscreen"></iframe>
+  </div>
+
+  <p>💡 Tip: GitHub Pages stays the same — only the iframe points to your live Cloudflare tunnel!</p>
 
   <script>
-    function convert() {
-      const cfurl = document.getElementById("cfurl").value.trim();
-      const duckname = document.getElementById("duckname").value.trim();
-
-      if (!cfurl || !duckname) {
-        alert("Please fill in both fields!");
+    function loadFrame() {
+      const url = document.getElementById('urlInput').value.trim();
+      if (!url.startsWith("http")) {
+        alert("Please enter a valid full URL starting with http or https");
         return;
       }
-
-      let cleanUrl = cfurl.replace(/^https?:\/\//, "").split("/")[0];
-      const duckUrl = `https://${duckname}.duckdns.org`;
-
-      document.getElementById("output").innerHTML = `
-        ✅ Duckified URL:<br>
-        <a href="${duckUrl}" target="_blank">${duckUrl}</a><br><br>
-        ⚙️ (Points to original Cloudflare tunnel: ${cleanUrl})
-      `;
+      document.getElementById('viewFrame').src = url;
     }
   </script>
 </body>
