@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudflare ➜ DuckDNS Converter</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #0a0a0a;
+      color: #00ffaa;
+      text-align: center;
+      padding-top: 100px;
+    }
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      width: 300px;
+      margin: 5px;
+      background: #222;
+      color: #0ff;
+    }
+    button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      background: #00ffaa;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #00cc88;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #0ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>☁️➡️🦆 Cloudflare to DuckDNS URL Converter</h1>
+  <p>Paste your Cloudflare URL and choose your DuckDNS name:</p>
+
+  <input type="text" id="cfurl" placeholder="https://example.trycloudflare.com"><br>
+  <input type="text" id="duckname" placeholder="myducksubdomain"><br>
+  <button onclick="convert()">Convert</button>
+
+  <div id="output"></div>
+
+  <script>
+    function convert() {
+      const cfurl = document.getElementById("cfurl").value.trim();
+      const duckname = document.getElementById("duckname").value.trim();
+
+      if (!cfurl || !duckname) {
+        alert("Please fill in both fields!");
+        return;
+      }
+
+      let cleanUrl = cfurl.replace(/^https?:\/\//, "").split("/")[0];
+      const duckUrl = `https://${duckname}.duckdns.org`;
+
+      document.getElementById("output").innerHTML = `
+        ✅ Duckified URL:<br>
+        <a href="${duckUrl}" target="_blank">${duckUrl}</a><br><br>
+        ⚙️ (Points to original Cloudflare tunnel: ${cleanUrl})
+      `;
+    }
+  </script>
+</body>
+</html>
